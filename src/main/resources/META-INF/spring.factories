@@ -1,2 +1,2 @@
 # Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.jswym.spring.boot.starter.multidatasource.AutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.jswym.spring.boot.starter.multidatasource.config.DynamicDatasourceConfig

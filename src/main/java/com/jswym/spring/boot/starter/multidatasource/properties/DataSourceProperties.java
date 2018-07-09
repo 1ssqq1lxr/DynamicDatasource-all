@@ -21,7 +21,7 @@ public class DataSourceProperties{
     /**
      * 是否是默认数据库  配置多个 默认选择第一个
      */
-    private boolean isDefault;
+    private boolean defaultDatasource;
 
     /**
      * 连接超时
