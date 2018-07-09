@@ -5,7 +5,7 @@
 
     <groupId>com.jswym.spring.boot</groupId>
     <artifactId>multidatasource-spring-boot-starter</artifactId>
-    <version>0.0.1-RELEASE</version>
+    <version>0.0.2-RELEASE</version>
     <packaging>jar</packaging>
 
     <name>multidatasource-spring-boot-starter</name>
