@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +40,7 @@ public class DynamicDatasourceConfig {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Bean(name = "transactionManager")
     @Primary
+    @ConditionalOnProperty(name = "enable",prefix ="com.wym",havingValue="true")
     public PlatformTransactionManager transactionManagerPrimary(@Autowired LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean,@Autowired DataSource datasource) {
         localContainerEntityManagerFactoryBean.setDataSource(datasource);
         return new JpaTransactionManager(localContainerEntityManagerFactoryBean.getObject());
@@ -48,7 +50,8 @@ public class DynamicDatasourceConfig {
      * 初始化数据源管理器
      */
     @Bean
-    @ConditionalOnClass({MultiDatasourceProperties.class})
+    @ConditionalOnBean({MultiDatasourceProperties.class})
+    @ConditionalOnProperty(name = "enable",prefix ="com.wym",havingValue="true")
     public DataSourceManager initDataSourceManager(@Autowired MultiDatasourceProperties orgDsProperties){
         return new DataSourceManager(orgDsProperties);
     }
@@ -58,7 +61,7 @@ public class DynamicDatasourceConfig {
      */
     @Bean("dynamicDataSource")
     @Primary
-    @ConditionalOnClass({DynamicIdSelector.class,DataSourceManager.class,DataSource.class})
+    @ConditionalOnBean({DynamicIdSelector.class,DataSourceManager.class,DataSource.class})
     public DataSource initAbstractRoutingDataSource(@Autowired DynamicIdSelector dynamicIdSelector,@Autowired DataSourceManager dataSourceManager){
         DynamicDataSource abstractRoutingDataSource = new DynamicDataSource(dynamicIdSelector,dataSourceManager);
         return  abstractRoutingDataSource;
@@ -69,6 +72,7 @@ public class DynamicDatasourceConfig {
      */
     @Bean
     @ConditionalOnMissingBean(value = {DynamicIdSelector.class})
+    @ConditionalOnProperty(name = "enable",prefix ="com.wym",havingValue="true")
     public DynamicIdSelector initDynamicIdSelector(){
         return  new DafultDynamicIdSelector();
     }

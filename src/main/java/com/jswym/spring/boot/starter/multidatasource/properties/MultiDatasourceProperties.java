@@ -20,6 +20,16 @@ public class MultiDatasourceProperties {
 
     private List<DataSourceProperties> multidatasource;
 
+    private boolean enable;
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
     @RefreshScope
     public List<DataSourceProperties> getMultidatasource() {
         return multidatasource;
