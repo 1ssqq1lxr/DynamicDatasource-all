@@ -50,7 +50,6 @@ public class DynamicDatasourceConfig {
      */
     @Bean
     @ConditionalOnBean({MultiDatasourceProperties.class})
-//    @ConditionalOnProperty(name = "enable",prefix ="com.wym",havingValue="true")
     public DataSourceManager initDataSourceManager(@Autowired MultiDatasourceProperties orgDsProperties){
         return new DataSourceManager(orgDsProperties);
     }
