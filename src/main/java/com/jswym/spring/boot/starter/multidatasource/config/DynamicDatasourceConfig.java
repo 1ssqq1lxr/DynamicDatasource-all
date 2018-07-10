@@ -40,7 +40,6 @@ public class DynamicDatasourceConfig {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Bean(name = "transactionManager")
     @Primary
-    @ConditionalOnProperty(name = "enable",prefix ="com.wym",havingValue="true")
     public PlatformTransactionManager transactionManagerPrimary(@Autowired LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean,@Autowired DataSource datasource) {
         localContainerEntityManagerFactoryBean.setDataSource(datasource);
         return new JpaTransactionManager(localContainerEntityManagerFactoryBean.getObject());
@@ -51,7 +50,7 @@ public class DynamicDatasourceConfig {
      */
     @Bean
     @ConditionalOnBean({MultiDatasourceProperties.class})
-    @ConditionalOnProperty(name = "enable",prefix ="com.wym",havingValue="true")
+//    @ConditionalOnProperty(name = "enable",prefix ="com.wym",havingValue="true")
     public DataSourceManager initDataSourceManager(@Autowired MultiDatasourceProperties orgDsProperties){
         return new DataSourceManager(orgDsProperties);
     }
@@ -72,7 +71,6 @@ public class DynamicDatasourceConfig {
      */
     @Bean
     @ConditionalOnMissingBean(value = {DynamicIdSelector.class})
-    @ConditionalOnProperty(name = "enable",prefix ="com.wym",havingValue="true")
     public DynamicIdSelector initDynamicIdSelector(){
         return  new DafultDynamicIdSelector();
     }
