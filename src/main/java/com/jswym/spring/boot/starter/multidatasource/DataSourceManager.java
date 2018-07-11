@@ -26,14 +26,25 @@ public class DataSourceManager {
 
     private final MultiDatasourceProperties orgDsProperties;
 
+    public String getDaefaultOrgcode(){
+        return Optional.ofNullable(orgDsProperties.getMultidatasource())
+                .map(configs ->
+                        configs.stream()
+                                .filter(config -> config.isEnabled()&&config.isDefaultDatasource())
+                                .findFirst()
+                                .map(dataSourceProperties -> dataSourceProperties.getOrgcode())
+                                .orElse(null)
+                ).orElse(null);
+    }
+
 
     public DataSource getDefault(){
         return Optional.ofNullable(orgDsProperties.getMultidatasource())
                 .map(configs ->
                         configs.stream()
                                 .filter(config -> config.isEnabled()&&config.isDefaultDatasource())
-                                .map(this::createDefaultDatasource)
                                 .findFirst()
+                                .map(this::createDefaultDatasource)
                                 .orElseThrow(() -> new DatasourceNotFindException("未发现默认数据源"))
                 ).orElseThrow(() -> new DatasourceNotFindException("未发现默认数据源")) ;
     }
