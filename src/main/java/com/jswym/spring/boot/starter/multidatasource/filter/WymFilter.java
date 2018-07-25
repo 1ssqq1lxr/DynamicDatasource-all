@@ -2,6 +2,8 @@ package com.jswym.spring.boot.starter.multidatasource.filter;
 
 import com.jswym.spring.boot.starter.multidatasource.DynamicIdSelector;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +26,9 @@ public class WymFilter extends OncePerRequestFilter {
 
 
     private final DynamicIdSelector dynamicIdSelector;
+
+    private final Logger log = LoggerFactory.getLogger(WymFilter.class);
+
 
     public WymFilter(DynamicIdSelector dynamicIdSelector) {
         this.dynamicIdSelector = dynamicIdSelector;
@@ -66,20 +71,23 @@ public class WymFilter extends OncePerRequestFilter {
 
     private String obtainParameter(HttpServletRequest request) {
 
-       String orgcode = "";
+        String orgcode = "";
 
-        // String requestParameter = request.getParameter("orgcode");
-        // Cookie cookie = WebUtils.getCookie(request, "orgcode");
-        // String header = request.getHeader("orgcode");
-        // if (StringUtils.isNotBlank(requestParameter)) {
-        //     orgcode = requestParameter;
-        // } else if (cookie != null && StringUtils.isNotBlank(cookie.toString())) {
-        //     orgcode = cookie.toString();
-        // }
-        // if (StringUtils.isNotBlank(header)) {
-        //     orgcode = header;
-        // }
-        orgcode = "testorg";
+        String requestParameter = request.getParameter("orgcode");
+        log.info("requestParameter: {}", requestParameter);
+        Cookie cookie = WebUtils.getCookie(request, "orgcode");
+        log.info("cookie: {}", cookie.toString());
+        String header = request.getHeader("orgcode");
+        log.info("header: {}", header);
+        if (StringUtils.isNotBlank(requestParameter)) {
+            orgcode = requestParameter;
+        } else if (cookie != null && StringUtils.isNotBlank(cookie.toString())) {
+            orgcode = cookie.toString();
+        }else if (StringUtils.isNotBlank(header)) {
+            orgcode = header;
+        }else {
+            orgcode = "123";
+        }
         return orgcode;
     }
 }
