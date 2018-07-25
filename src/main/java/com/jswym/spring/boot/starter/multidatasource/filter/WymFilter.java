@@ -68,17 +68,18 @@ public class WymFilter extends OncePerRequestFilter {
 
        String orgcode = "";
 
-        String requestParameter = request.getParameter("orgcode");
-        Cookie cookie = WebUtils.getCookie(request, "orgcode");
-        String header = request.getHeader("orgcode");
-        if (StringUtils.isNotBlank(requestParameter)) {
-            orgcode = requestParameter;
-        } else if (cookie != null && StringUtils.isNotBlank(cookie.toString())) {
-            orgcode = cookie.toString();
-        }
-        if (StringUtils.isNotBlank(header)) {
-            orgcode = header;
-        }
+        // String requestParameter = request.getParameter("orgcode");
+        // Cookie cookie = WebUtils.getCookie(request, "orgcode");
+        // String header = request.getHeader("orgcode");
+        // if (StringUtils.isNotBlank(requestParameter)) {
+        //     orgcode = requestParameter;
+        // } else if (cookie != null && StringUtils.isNotBlank(cookie.toString())) {
+        //     orgcode = cookie.toString();
+        // }
+        // if (StringUtils.isNotBlank(header)) {
+        //     orgcode = header;
+        // }
+        orgcode = "testorg";
         return orgcode;
     }
 }
