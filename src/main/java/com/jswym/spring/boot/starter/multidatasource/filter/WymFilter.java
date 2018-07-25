@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -62,6 +63,11 @@ public class WymFilter extends OncePerRequestFilter {
     }
 
     private String obtainParameter(HttpServletRequest request) {
-       return  request.getParameter("orgcode");
+
+       String orgcode = request.getParameter("orgcode");
+       if(orgcode == null || orgcode.trim().length() == 0) {
+           orgcode = WebUtils.getCookie(request, "orgcode").toString();
+       }
+        return orgcode;
     }
 }
