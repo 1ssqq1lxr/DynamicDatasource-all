@@ -1,6 +1,7 @@
 package com.jswym.spring.boot.starter.multidatasource.filter;
 
 import com.jswym.spring.boot.starter.multidatasource.DynamicIdSelector;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -64,10 +66,19 @@ public class WymFilter extends OncePerRequestFilter {
 
     private String obtainParameter(HttpServletRequest request) {
 
-       String orgcode = request.getParameter("orgcode");
-       if(orgcode == null || orgcode.trim().length() == 0) {
-           orgcode = WebUtils.getCookie(request, "orgcode").toString();
-       }
+       String orgcode = "";
+
+        String requestParameter = request.getParameter("orgcode");
+        Cookie cookie = WebUtils.getCookie(request, "orgcode");
+        String header = request.getHeader("orgcode");
+        if (StringUtils.isNotBlank(requestParameter)) {
+            orgcode = requestParameter;
+        } else if (cookie != null && StringUtils.isNotBlank(cookie.toString())) {
+            orgcode = cookie.toString();
+        }
+        if (StringUtils.isNotBlank(header)) {
+            orgcode = header;
+        }
         return orgcode;
     }
 }
