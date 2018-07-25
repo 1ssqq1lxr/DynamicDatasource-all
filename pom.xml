@@ -5,7 +5,7 @@
 
     <groupId>com.jswym.spring.boot</groupId>
     <artifactId>multidatasource-spring-boot-starter</artifactId>
-    <version>0.0.9-RELEASE</version>
+    <version>0.0.6-RELEASE</version>
     <packaging>jar</packaging>
 
     <name>multidatasource-spring-boot-starter</name>
@@ -89,11 +89,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 
