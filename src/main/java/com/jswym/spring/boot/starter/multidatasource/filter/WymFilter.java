@@ -1,6 +1,7 @@
 package com.jswym.spring.boot.starter.multidatasource.filter;
 
 import com.jswym.spring.boot.starter.multidatasource.DynamicIdSelector;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ import java.util.Optional;
  * @author lxr
  * @create 2018-06-12 20:48
  **/
+@Slf4j
 public class WymFilter extends OncePerRequestFilter {
 
 
@@ -29,6 +31,7 @@ public class WymFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String orgCode = obtainParameter(request);
+        log.info(request.getRequestURI()+":请求fitler"+getOrgcode());
         try {
             dynamicIdSelector.setOrgCode(Optional.ofNullable(orgCode)
                 .orElseGet(() -> getOrgcode().orElse(null)));
