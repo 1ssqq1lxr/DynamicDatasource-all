@@ -31,10 +31,12 @@ public class WymFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String orgCode = obtainParameter(request);
+        orgCode=Optional.ofNullable(orgCode)
+                .orElseGet(() -> getOrgcode().orElse(null));
+        log.info("request orgcode :"+orgCode);
         log.info(request.getRequestURI()+":请求fitler"+getOrgcode());
         try {
-            dynamicIdSelector.setOrgCode(Optional.ofNullable(orgCode)
-                .orElseGet(() -> getOrgcode().orElse(null)));
+            dynamicIdSelector.setOrgCode(orgCode);
             filterChain.doFilter(request, response);
         }
         finally {
